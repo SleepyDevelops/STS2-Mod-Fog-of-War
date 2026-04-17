@@ -10,7 +10,7 @@ metadata={
 
 [deps]
 
-source_file="res://Test_Mod/mod_image.png"
+source_file="res://Fog_of_war/Reources/mod_image.png"
 dest_files=["res://.godot/imported/mod_image.png-1bda231a72b9fdc3cf42a2e86c839bef.ctex"]
 
 [params]

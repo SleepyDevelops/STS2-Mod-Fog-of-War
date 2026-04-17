@@ -36,28 +36,36 @@
         <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="*" />
         <!-- Generates a .pck file when building if only using simple assets. May not work on all setups. Uncomment to test. -->
         <!-- <PackageReference Include="BSchneppe.StS2.PckPacker" Version="0.1.1" PrivateAssets="All" /> -->
-        <AdditionalFiles Include="Test_Mod/localization/**/*.json" /> <!-- Used by analyzer -->
+        <AdditionalFiles Include="Fog_Of_War/localization/**/*.json" /> <!-- Used by analyzer -->
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Test_Mod/**" />
+        <Compile Remove="Fog_Of_War/**" />
         <Compile Remove="materials/**" />
         <Compile Remove="shaders/**" />
         <Compile Remove="images/**" />
-        <EmbeddedResource Remove="Test_Mod/**" />
+        <EmbeddedResource Remove="Fog_Of_War/**" />
         <EmbeddedResource Remove="materials/**" />
         <EmbeddedResource Remove="shaders/**" />
         <EmbeddedResource Remove="images/**" />
     </ItemGroup>
 
     <ItemGroup>
+        <None Include="Code\MainFile.cs" />
+        <None Include="Code\MainFile.cs.uid" />
         <None Condition="Exists('Directory.Build.props')" Include="Directory.Build.props" />
         <None Include=".gitignore" />
-        <None Include="Test_Mod.json">
+        <None Include="Fog_Of_War.json">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </None>
         <None Include="project.godot" />
-        <None Include="Test_Mod/**" />
+        <None Include="Resources\mod_image.png.import" />
+        <None Include="Fog_Of_War/**" />
+    </ItemGroup>
+
+    <ItemGroup>
+
+      <Content Include="Resources\mod_image.png" />
     </ItemGroup>
 	
     <Target Name="CheckDependencyPaths">

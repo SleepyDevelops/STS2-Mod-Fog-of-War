@@ -4,5 +4,5 @@
     <BuildType Name="ExportDebug" />
     <BuildType Name="ExportRelease" />
   </Configurations>
-  <Project Path="Test_Mod.csproj" />
+  <Project Path="Fog_of_war.csproj" />
 </Solution>
