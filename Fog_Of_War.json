@@ -4,7 +4,7 @@
   "author": "SleepyDev",
   "description": "Fog of War hides most of the map and gradually reveals points as you progress through the run.",
   "version": "v1.0.0",
-  "has_pck": false,
+  "has_pck": true,
   "has_dll": true,
   "dependencies": [],
   "affects_gameplay": true

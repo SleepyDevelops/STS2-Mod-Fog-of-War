@@ -55,17 +55,18 @@
         <None Include="Code\MainFile.cs.uid" />
         <None Condition="Exists('Directory.Build.props')" Include="Directory.Build.props" />
         <None Include=".gitignore" />
-        <None Include="Fog_Of_War.json">
+        <None Include="Fog_of_war.json">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </None>
         <None Include="project.godot" />
+        <None Include="README.md" />
         <None Include="Resources\mod_image.png.import" />
         <None Include="Fog_Of_War/**" />
     </ItemGroup>
 
     <ItemGroup>
 
-      <Content Include="Resources\mod_image.png" />
+      <None Include="Resources\mod_image.png" />
     </ItemGroup>
 	
     <Target Name="CheckDependencyPaths">

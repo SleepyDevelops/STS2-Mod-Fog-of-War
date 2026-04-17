@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b4pdufn0yymt"
-path="res://.godot/imported/mod_image.png-1bda231a72b9fdc3cf42a2e86c839bef.ctex"
+path="res://.godot/imported/mod_image.png-f793a0213264e8e7d05da2f49ec429d3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Fog_of_war/Reources/mod_image.png"
-dest_files=["res://.godot/imported/mod_image.png-1bda231a72b9fdc3cf42a2e86c839bef.ctex"]
+source_file="res://Resources/mod_image.png"
+dest_files=["res://.godot/imported/mod_image.png-f793a0213264e8e7d05da2f49ec429d3.ctex"]
 
 [params]
 

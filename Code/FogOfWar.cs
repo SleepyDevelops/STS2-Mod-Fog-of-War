@@ -11,10 +11,10 @@ namespace Fog_of_war
 {
     internal class FogOfWar
     {
-        public static RunState? RunState { get; private set; } = null;
-        public static bool editedMap { get; private set; } = false;
-        public static List<(MapPoint point, List<MapPoint> oldChildren, List<MapPoint> oldParents, MapPointType oldType)> Changes = new();
-        public static Logger Logger { get; set; }
+        public  RunState? RunState { get; private set; } = null;
+        public  bool editedMap { get; private set; } = false;
+        public  List<(MapPoint point, List<MapPoint> oldChildren, List<MapPoint> oldParents, MapPointType oldType)> Changes = new();
+        public  Logger Logger { get; set; }
 
         public FogOfWar(Logger logger)
         {
@@ -25,7 +25,6 @@ namespace Fog_of_war
         {
             RunState = runState;
         }
-
 
         public void RestoreMap()
         {
@@ -53,12 +52,15 @@ namespace Fog_of_war
             Changes.Clear();
         }
 
-        private static void UpdateMap()
+        private void UpdateMap()
         {
+            var CurrentMapPoint = new MapPoint(0, 0);
             if (RunState == null)
-            {
                 return;
-            }
+            if (RunState.Map == null)
+                return;
+            if (RunState.CurrentMapPoint != null)
+                CurrentMapPoint = RunState.CurrentMapPoint;
 
             Logger.LogWithTimestamp($"Current act index {RunState.CurrentActIndex}");
             Logger.LogWithTimestamp($"Floor {RunState.ActFloor}/{RunState.TotalFloor}");
@@ -66,10 +68,10 @@ namespace Fog_of_war
 
             ActMap ModifiedActMap = RunState.Map;
             List<MapPoint> MapPoints = RunState.Map.GetAllMapPoints().ToList();
-            Logger.LogWithTimestamp($"{RunState.CurrentMapPoint.coord.row}");         
+            Logger.LogWithTimestamp($"{CurrentMapPoint.coord.row}");
             foreach (MapPoint mapPoint in MapPoints)
             {
-                if (mapPoint.coord.row >= RunState.CurrentMapPoint.coord.row + 1 || (!RunState.CurrentMapPoint.Children.Contains(mapPoint) && !RunState.VisitedMapCoords.Contains(mapPoint.coord)))
+                if (mapPoint.coord.row >= CurrentMapPoint.coord.row + 1 || (!CurrentMapPoint.Children.Contains(mapPoint) && !RunState.VisitedMapCoords.Contains(mapPoint.coord)))
                 {
                     // tracking changes since making a copy of ActMap is not possible
                     Changes.Add((
@@ -89,10 +91,18 @@ namespace Fog_of_war
                     // check if RunState.VisitedMapCoords children to show the already seen icons
                     foreach (var item in RunState.VisitedMapCoords)
                     {
-                        if (RunState.Map.GetPoint(item).Children.Contains(mapPoint))
-                            seenOnce = true;
+                        if (RunState.Map.GetPoint(item) != null)
+                        {
+                            if (RunState.Map.GetPoint(item).Children.Contains(mapPoint))
+                                seenOnce = true;
+                        }
+                        else
+                        {
+                            Logger.LogWithTimestamp($"Oops trying to edit nonexistent point");
+                        }
+
                     }
-                    if ((mapPoint.coord.row >= RunState.CurrentMapPoint.coord.row + 2 || (!RunState.CurrentMapPoint.Children.Contains(mapPoint) && !RunState.VisitedMapCoords.Contains(mapPoint.coord))) && !seenOnce)
+                    if ((mapPoint.coord.row >= CurrentMapPoint.coord.row + 2 || (!CurrentMapPoint.Children.Contains(mapPoint) && !RunState.VisitedMapCoords.Contains(mapPoint.coord))) && !seenOnce)
                     {
                         Logger.LogWithTimestamp($"Changing MapPointType from {mapPoint.PointType} to  {MapPointType.Unassigned}");
                         mapPoint.PointType = MapPointType.Unassigned;
@@ -100,7 +110,19 @@ namespace Fog_of_war
                 }
             }
             //rerender Map
-            NMapScreen.Instance.SetMap(ModifiedActMap, RunState.Rng.Seed, false);
+            try
+            {
+                NMapScreen.Instance.SetMap(ModifiedActMap, RunState.Rng.Seed, false);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.LogWithTimestamp($"Error rendering Map {ex.Message}");
+            }
+            finally 
+            {
+                RestoreMap();
+            }
         }
 
         public void RequestUpdateOnMapOpen()
@@ -128,7 +150,7 @@ namespace Fog_of_war
             }
         }
 
-        static void OnMapScreenOpened()
+        private void OnMapScreenOpened()
         {
             // Unsubscribe from the event
             var mapScreen = NMapScreen.Instance;
