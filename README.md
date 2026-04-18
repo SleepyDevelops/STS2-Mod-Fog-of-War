@@ -4,7 +4,7 @@ A map revelation system for Slay the Spire 2 that progressively unveils map loca
 
 ## Overview
 
-The Fog of War mod enhances the strategic depth of Slay the Spire 2 by implementing a progressive map revelation mechanic. Instead of revealing the entire map immediately, most locations remain hidden and are gradually disclosed as you explore and progress through floors. This adds an element of discovery and planning to your run.
+Explore the map with uncertainty! This mod hides most future paths and only reveals nodes as you progress through each act. Instead of planning your entire route from the start, you’ll uncover the map step by step based on your current position and visited nodes.
 
 #### Installation
 
