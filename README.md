@@ -8,8 +8,8 @@ The Fog of War mod enhances the strategic depth of Slay the Spire 2 by implement
 
 #### Installation
 
-1. Download the latest release
-2. Copy the downloaded files to `[StS2 Installation]/mods/`
+1. Download the latest release, .dll .json and.pck oder the .zip
+2. Copy the downloaded files to `[StS2 Installation]/mods/` (exctract if you downloaded the .zip)
 3. Activate the mod in StS2 settings
 
 ## Troubleshooting
