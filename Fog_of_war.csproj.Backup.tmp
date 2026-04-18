@@ -36,15 +36,17 @@
         <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="*" />
         <!-- Generates a .pck file when building if only using simple assets. May not work on all setups. Uncomment to test. -->
         <!-- <PackageReference Include="BSchneppe.StS2.PckPacker" Version="0.1.1" PrivateAssets="All" /> -->
-        <AdditionalFiles Include="Fog_Of_War/localization/**/*.json" /> <!-- Used by analyzer -->
+		<!--   <AdditionalFiles Include="Fog_Of_War/localization/**/*.json" />Used by analyzer -->
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Fog_of_war/**" />
+
         <Compile Remove="materials/**" />
+		<Compile Remove="Resources/**" />
         <Compile Remove="shaders/**" />
         <Compile Remove="images/**" />
-        <EmbeddedResource Remove="Fog_of_war/**" />
+
+		<EmbeddedResource Remove="Resources/**" />
         <EmbeddedResource Remove="materials/**" />
         <EmbeddedResource Remove="shaders/**" />
         <EmbeddedResource Remove="images/**" />
@@ -58,9 +60,11 @@
         <None Include="Fog_of_war.json">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </None>
+        <None Include="Fog_of_war\mod_image.png" />
+        <None Include="Fog_of_war\mod_image.png.import" />
         <None Include="project.godot" />
         <None Include="README.md" />
-        <None Include="Fog_of_war/**" />
+        <None Include="Resources/**" />
     </ItemGroup>
 	
     <Target Name="CheckDependencyPaths">
