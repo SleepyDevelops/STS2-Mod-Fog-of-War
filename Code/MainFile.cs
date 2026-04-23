@@ -1,4 +1,5 @@
 using Godot;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Runs;
 
@@ -15,6 +16,8 @@ namespace Fog_of_war
         public static void Initialize()
         {
             Logger.LogWithTimestamp("Mod loaded");
+            Harmony harmony = new(ModId);
+            harmony.PatchAll();
             // Subscribe to game events
             var manager = RunManager.Instance;
             Fow = new FogOfWar(Logger);
