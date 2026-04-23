@@ -9,16 +9,34 @@ using System.Threading.Tasks;
 
 namespace Fog_of_war
 {
-    internal class FogOfWar
+    public class FogOfWar
     {
         public  RunState? RunState { get; private set; } = null;
         public  bool editedMap { get; private set; } = false;
         public  List<(MapPoint point, List<MapPoint> oldChildren, List<MapPoint> oldParents, MapPointType oldType)> Changes = new();
         public  Logger Logger { get; set; }
+        public  bool IsEnabled { get; set; } = true;
 
         public FogOfWar(Logger logger)
         {
             Logger = logger;
+        }
+
+        public void SetEnabled(bool enabled)
+        {
+            IsEnabled = enabled;
+            Logger.LogWithTimestamp($"Fog of War {(enabled ? "enabled" : "disabled")}");
+
+            if (enabled && editedMap)
+            {
+                // Re-apply fog of war if it was previously disabled
+                UpdateMap();
+            }
+            else if (!enabled && editedMap)
+            {
+                // Restore the map if disabling
+                RestoreMap();
+            }
         }
 
         public void SetRunState(RunState? runState)
@@ -56,6 +74,11 @@ namespace Fog_of_war
 
         public void UpdateMap()
         {
+            if (!IsEnabled)
+            {
+                Logger.LogWithTimestamp("Fog of War is disabled, skipping map update");
+                return;
+            }
 
             if (NMapScreen.Instance == null)
                 return;

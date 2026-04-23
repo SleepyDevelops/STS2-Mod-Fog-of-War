@@ -13,6 +13,7 @@ namespace Fog_of_war
         private const string ModId = "Fog_of_war";
         private static Logger Logger = new Logger(ModId);
         private static FogOfWar Fow;
+        public static FogOfWar FogOfWarInstance => Fow;
 
         public static void Initialize()
         {
