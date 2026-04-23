@@ -23,4 +23,7 @@ Explore the map with uncertainty! This mod hides most future paths and only reve
 ### v1.0.0
 - Initial release
 - Core fog of war mechanic implemented
+### v1.0.1
+- fixed [#1](https://github.com/SleepyDevelops/STS2-Mod-Fog-of-War/issues/1)
+- fixed a bug where the map was visible after starting a new act
 
