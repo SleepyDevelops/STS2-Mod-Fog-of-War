@@ -25,9 +25,9 @@ namespace Fog_of_war
 
         static void OnActEntered()
         {
-            Fow.RestoreMap();
             Logger.LogWithTimestamp("Act entered");
-            Fow.RequestUpdateOnMapOpen();
+            Fow.RestoreMap();         
+            Fow.UpdateMap();
         }
 
         static void OnRunStarted(RunState runState)
@@ -40,7 +40,7 @@ namespace Fog_of_war
         {
             Logger.LogWithTimestamp("Room entered");
             Fow.RestoreMap();
-            Fow.RequestUpdateOnMapOpen();
+            Fow.UpdateMap();
         }
     }
 }
