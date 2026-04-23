@@ -28,6 +28,8 @@ namespace Fog_of_war
 
         public void RestoreMap()
         {
+            Logger.LogWithTimestamp($"Restoring Map");
+            editedMap = true;
             // restore original state
             foreach (var change in Changes)
             {
@@ -52,8 +54,13 @@ namespace Fog_of_war
             Changes.Clear();
         }
 
-        private void UpdateMap()
+        public void UpdateMap()
         {
+
+            if (NMapScreen.Instance == null)
+                return;
+            Logger.LogWithTimestamp($"Updating Map");
+            NMapScreen.Instance.Opened -= UpdateMap;
             var CurrentMapPoint = new MapPoint(0, 0);
             if (RunState == null)
                 return;
@@ -102,7 +109,7 @@ namespace Fog_of_war
                         }
 
                     }
-                    if ((mapPoint.coord.row >= CurrentMapPoint.coord.row + 2 || (!CurrentMapPoint.Children.Contains(mapPoint) && !RunState.VisitedMapCoords.Contains(mapPoint.coord))) && !seenOnce)
+                    if ((mapPoint.coord.row >= CurrentMapPoint.coord.row + 2 || (!CurrentMapPoint.Children.Contains(mapPoint) && !RunState.VisitedMapCoords.Contains(mapPoint.coord))) && !seenOnce && mapPoint.coord.row != 1)
                     {
                         Logger.LogWithTimestamp($"Changing MapPointType from {mapPoint.PointType} to  {MapPointType.Unassigned}");
                         mapPoint.PointType = MapPointType.Unassigned;
@@ -122,44 +129,8 @@ namespace Fog_of_war
             finally 
             {
                 RestoreMap();
+                NMapScreen.Instance.Opened += UpdateMap;
             }
-        }
-
-        public void RequestUpdateOnMapOpen()
-        {
-            Logger.LogWithTimestamp("Requesting update when map opens");
-
-            // Check if map screen is already open
-            var mapScreen = NMapScreen.Instance;
-            if (mapScreen != null && mapScreen.IsOpen)
-            {
-                Logger.LogWithTimestamp("Map screen is already open, update immediately");
-                UpdateMap();
-                return;
-            }
-
-            // Subscribe to map screen opened event
-            if (mapScreen != null)
-            {
-                mapScreen.Opened += OnMapScreenOpened;
-                Logger.LogWithTimestamp("Subscribed to map screen Opened event");
-            }
-            else
-            {
-                Logger.LogWithTimestamp("NMapScreen.Instance is null, will retry on next act/room");
-            }
-        }
-
-        private void OnMapScreenOpened()
-        {
-            // Unsubscribe from the event
-            var mapScreen = NMapScreen.Instance;
-            if (mapScreen != null)
-            {
-                mapScreen.Opened -= OnMapScreenOpened;
-                Logger.LogWithTimestamp("Unsubscribed from map screen Opened event");
-            }
-            UpdateMap();
         }
     }
 }
