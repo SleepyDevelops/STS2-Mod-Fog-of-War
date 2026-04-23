@@ -2,7 +2,7 @@
 
 namespace Fog_of_war
 {
-    internal class Logger
+    public class Logger
     {
         public Logger(string modId)
         {
