@@ -1,4 +1,5 @@
 using Godot;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Runs;
 
@@ -15,6 +16,8 @@ namespace Fog_of_war
         public static void Initialize()
         {
             Logger.LogWithTimestamp("Mod loaded");
+            Harmony harmony = new(ModId);
+            harmony.PatchAll();
             // Subscribe to game events
             var manager = RunManager.Instance;
             Fow = new FogOfWar(Logger);
@@ -25,9 +28,9 @@ namespace Fog_of_war
 
         static void OnActEntered()
         {
-            Fow.RestoreMap();
             Logger.LogWithTimestamp("Act entered");
-            Fow.RequestUpdateOnMapOpen();
+            Fow.RestoreMap();         
+            Fow.UpdateMap();
         }
 
         static void OnRunStarted(RunState runState)
@@ -40,7 +43,7 @@ namespace Fog_of_war
         {
             Logger.LogWithTimestamp("Room entered");
             Fow.RestoreMap();
-            Fow.RequestUpdateOnMapOpen();
+            Fow.UpdateMap();
         }
     }
 }

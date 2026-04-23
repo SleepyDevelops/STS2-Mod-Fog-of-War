@@ -14,7 +14,7 @@ namespace Fog_of_war
         public void LogWithTimestamp(string message)
         {
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            Log.Warn($"[{timestamp}] MODTEST: {message}");
+            Log.Warn($"[{timestamp}]: {message}");
         }
     }
 }
